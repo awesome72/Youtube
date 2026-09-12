@@ -47,7 +47,8 @@ export async function GET(request: NextRequest) {
 
     const searchResults = await Promise.all(
       keywords.map(async (keyword) => {
-        const ids = await searchVideoIds(keyword, publishedAfter, apiKey, MAX_RESULTS_PER_KEYWORD);
+        const searchQuery = keyword.includes("주식") ? keyword : `${keyword} 주식`;
+        const ids = await searchVideoIds(searchQuery, publishedAfter, apiKey, MAX_RESULTS_PER_KEYWORD);
         return { keyword, ids };
       })
     );
