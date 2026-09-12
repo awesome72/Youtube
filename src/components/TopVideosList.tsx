@@ -9,17 +9,17 @@ interface TopVideosListProps {
 export default function TopVideosList({ videos }: TopVideosListProps) {
   if (videos.length === 0) {
     return (
-      <div className="flex h-40 items-center justify-center text-sm text-slate-400">
+      <div className="flex h-40 items-center justify-center text-[14px] text-[var(--color-text-secondary)]">
         표시할 영상이 없습니다.
       </div>
     );
   }
 
   return (
-    <ol className="flex flex-col divide-y divide-slate-100 dark:divide-slate-700">
+    <ol className="flex flex-col divide-y divide-[var(--color-card-border)]">
       {videos.map((video, index) => (
         <li key={video.id} className="flex gap-4 py-4 first:pt-0 last:pb-0">
-          <span className="w-6 shrink-0 text-center text-lg font-semibold text-slate-300 dark:text-slate-600">
+          <span className="w-6 shrink-0 text-center text-lg font-semibold text-[var(--color-text-secondary)]">
             {index + 1}
           </span>
 
@@ -27,7 +27,7 @@ export default function TopVideosList({ videos }: TopVideosListProps) {
             href={`https://www.youtube.com/watch?v=${video.id}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="relative h-[68px] w-[120px] shrink-0 overflow-hidden rounded-lg bg-slate-100 dark:bg-slate-700"
+            className="relative h-[68px] w-[120px] shrink-0 overflow-hidden rounded-sm bg-[var(--color-divider-soft)] dark:bg-white/5"
           >
             {video.thumbnail ? (
               <Image
@@ -46,15 +46,15 @@ export default function TopVideosList({ videos }: TopVideosListProps) {
               href={`https://www.youtube.com/watch?v=${video.id}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="truncate text-sm font-semibold text-slate-900 hover:text-blue-600 dark:text-slate-50"
+              className="truncate text-[14px] font-semibold tracking-[-0.224px] text-[var(--color-text-primary)] hover:text-[var(--color-accent)]"
               title={video.title}
             >
               {video.title}
             </a>
-            <span className="truncate text-xs text-slate-500 dark:text-slate-400">
+            <span className="truncate text-[12px] tracking-[-0.12px] text-[var(--color-text-secondary)]">
               {video.channelTitle} · {formatDate(video.publishedAt)}
             </span>
-            <div className="flex flex-wrap gap-x-3 gap-y-1 text-xs text-slate-500 dark:text-slate-400">
+            <div className="flex flex-wrap gap-x-3 gap-y-1 text-[12px] tracking-[-0.12px] text-[var(--color-text-secondary)]">
               <span>조회수 {formatCompactKo(video.viewCount)}</span>
               <span>좋아요 {formatCompactKo(video.likeCount)}</span>
               <span>참여율 {video.engagementRate.toFixed(2)}%</span>
@@ -62,7 +62,7 @@ export default function TopVideosList({ videos }: TopVideosListProps) {
           </div>
 
           <div className="flex shrink-0 flex-col items-end justify-center gap-1">
-            <span className="rounded-full bg-blue-50 px-2.5 py-1 text-xs font-semibold text-blue-700 dark:bg-blue-950 dark:text-blue-300">
+            <span className="rounded-pill bg-primary/10 px-2.5 py-1 text-[12px] font-semibold tracking-[-0.12px] text-primary dark:bg-primary-on-dark/15 dark:text-[var(--color-primary-on-dark)]">
               Trend {video.trendScore}
             </span>
           </div>

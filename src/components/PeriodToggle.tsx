@@ -11,16 +11,16 @@ export default function PeriodToggle({ value, onChange }: PeriodToggleProps) {
   const options: Period[] = [7, 30];
 
   return (
-    <div className="inline-flex rounded-lg border border-slate-300 p-1 dark:border-slate-600">
+    <div className="inline-flex rounded-pill border border-[var(--color-card-border)] bg-[var(--color-card-bg)] p-1">
       {options.map((period) => (
         <button
           key={period}
           type="button"
           onClick={() => onChange(period)}
-          className={`rounded-md px-4 py-1.5 text-sm font-medium transition-colors ${
+          className={`rounded-pill px-4 py-1.5 text-[14px] font-normal tracking-[-0.224px] transition-all active:scale-95 ${
             value === period
-              ? "bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900"
-              : "text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800"
+              ? "bg-primary text-white"
+              : "text-[var(--color-text-secondary)] hover:bg-[var(--color-divider-soft)] dark:hover:bg-white/5"
           }`}
         >
           최근 {period}일

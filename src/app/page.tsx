@@ -63,36 +63,40 @@ export default function Home() {
     : 0;
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
-      <header className="border-b border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900">
+    <div className="min-h-screen">
+      <header className="border-b border-[var(--color-card-border)] bg-[var(--color-card-bg)]">
         <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6">
-          <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-slate-50 sm:text-3xl">
+          <h1 className="text-[34px] font-semibold leading-[1.15] tracking-[-0.374px] text-[var(--color-text-primary)]">
             YouTube Trend Lens
           </h1>
-          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+          <p className="mt-1 text-[14px] tracking-[-0.224px] text-[var(--color-text-secondary)]">
             키워드 기반 YouTube 영상 트렌드 분석 대시보드
           </p>
         </div>
       </header>
 
       <main className="mx-auto flex max-w-6xl flex-col gap-6 px-4 py-6 sm:px-6">
-        <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+        <section className="rounded-card border border-[var(--color-card-border)] bg-[var(--color-card-bg)] p-6">
           <div className="flex flex-col gap-5">
             <div>
-              <h2 className="mb-2 text-sm font-semibold text-slate-700 dark:text-slate-200">검색 키워드</h2>
+              <h2 className="mb-2 text-[17px] font-semibold tracking-[0.231px] text-[var(--color-text-primary)]">
+                검색 키워드
+              </h2>
               <KeywordPicker selected={selectedKeywords} onChange={setSelectedKeywords} />
             </div>
 
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <h2 className="mb-2 text-sm font-semibold text-slate-700 dark:text-slate-200">분석 기간</h2>
+                <h2 className="mb-2 text-[17px] font-semibold tracking-[0.231px] text-[var(--color-text-primary)]">
+                  분석 기간
+                </h2>
                 <PeriodToggle value={period} onChange={setPeriod} />
               </div>
               <button
                 type="button"
                 onClick={runAnalysis}
                 disabled={loading}
-                className="rounded-full bg-blue-600 px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-60"
+                className="rounded-pill bg-primary px-[22px] py-[11px] text-[17px] font-normal text-white transition-transform hover:bg-[var(--color-primary-focus)] active:scale-95 disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {loading ? "분석 중..." : "트렌드 분석하기"}
               </button>
@@ -101,14 +105,14 @@ export default function Home() {
         </section>
 
         {error && (
-          <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 dark:border-red-900 dark:bg-red-950 dark:text-red-300">
+          <div className="rounded-card border border-[var(--color-danger-border)] bg-[var(--color-danger-bg)] px-4 py-3 text-[14px] text-[var(--color-danger-text)]">
             {error}
           </div>
         )}
 
         {data && (
           <>
-            <section className="rounded-2xl border border-slate-200 bg-white p-5 text-sm text-slate-600 shadow-sm dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300">
+            <section className="rounded-card border border-[var(--color-card-border)] bg-[var(--color-card-bg)] p-6 text-[17px] leading-[1.47] tracking-[-0.374px] text-[var(--color-text-primary)]">
               {data.summary}
             </section>
 
@@ -120,23 +124,23 @@ export default function Home() {
             </section>
 
             <section className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-              <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-800">
-                <h2 className="mb-4 text-sm font-semibold text-slate-700 dark:text-slate-200">
+              <div className="rounded-card border border-[var(--color-card-border)] bg-[var(--color-card-bg)] p-6">
+                <h2 className="mb-4 text-[17px] font-semibold tracking-[0.231px] text-[var(--color-text-primary)]">
                   자주 등장하는 키워드 TOP 10
                 </h2>
                 <FrequentTermsChart data={data.frequentTerms} />
               </div>
 
-              <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-800">
-                <h2 className="mb-4 text-sm font-semibold text-slate-700 dark:text-slate-200">
+              <div className="rounded-card border border-[var(--color-card-border)] bg-[var(--color-card-bg)] p-6">
+                <h2 className="mb-4 text-[17px] font-semibold tracking-[0.231px] text-[var(--color-text-primary)]">
                   검색어별 성과 비교
                 </h2>
                 <KeywordPerformanceChart data={data.topKeywords} />
               </div>
             </section>
 
-            <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-800">
-              <h2 className="mb-4 text-sm font-semibold text-slate-700 dark:text-slate-200">
+            <section className="rounded-card border border-[var(--color-card-border)] bg-[var(--color-card-bg)] p-6">
+              <h2 className="mb-4 text-[17px] font-semibold tracking-[0.231px] text-[var(--color-text-primary)]">
                 조회수 증가 가능성이 높은 영상 TOP 10
               </h2>
               <TopVideosList videos={data.topVideos} />
@@ -145,7 +149,7 @@ export default function Home() {
         )}
       </main>
 
-      <footer className="mx-auto max-w-6xl px-4 py-8 text-center text-xs text-slate-400 sm:px-6">
+      <footer className="mx-auto max-w-6xl px-4 py-8 text-center text-[12px] tracking-[-0.12px] text-[var(--color-text-secondary)] sm:px-6">
         Trend Score는 YouTube API의 실시간 조회수와 게시 경과일을 기반으로 한 추정치이며, 투자 자문이 아닙니다.
       </footer>
     </div>

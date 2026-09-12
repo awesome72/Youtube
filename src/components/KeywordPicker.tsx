@@ -40,10 +40,10 @@ export default function KeywordPicker({ selected, onChange }: KeywordPickerProps
               key={keyword}
               type="button"
               onClick={() => toggle(keyword)}
-              className={`rounded-full border px-4 py-1.5 text-sm font-medium transition-colors ${
+              className={`rounded-pill border px-4 py-1.5 text-[14px] font-normal tracking-[-0.224px] transition-all active:scale-95 ${
                 isSelected
-                  ? "border-blue-600 bg-blue-600 text-white"
-                  : "border-slate-300 bg-white text-slate-700 hover:border-blue-400 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200"
+                  ? "border-primary bg-primary text-white"
+                  : "border-[var(--color-card-border)] bg-[var(--color-card-bg)] text-[var(--color-text-primary)] hover:border-[var(--color-primary-focus)]"
               }`}
             >
               {keyword}
@@ -64,12 +64,12 @@ export default function KeywordPicker({ selected, onChange }: KeywordPickerProps
             }
           }}
           placeholder="직접 검색어 입력 (예: 반도체)"
-          className="w-full max-w-xs rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:border-blue-500 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100"
+          className="w-full max-w-xs rounded-pill border border-[var(--color-card-border)] bg-[var(--color-card-bg)] px-4 py-2 text-[14px] text-[var(--color-text-primary)] outline-none focus:border-[var(--color-primary-focus)] focus:ring-2 focus:ring-[var(--color-primary-focus)]/20"
         />
         <button
           type="button"
           onClick={addCustomKeyword}
-          className="rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-700 dark:bg-slate-100 dark:text-slate-900"
+          className="rounded-pill bg-[var(--color-text-primary)] px-4 py-2 text-[14px] font-normal text-[var(--color-card-bg)] transition-transform active:scale-95 hover:opacity-90"
         >
           추가
         </button>
