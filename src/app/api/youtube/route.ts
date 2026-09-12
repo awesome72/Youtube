@@ -6,7 +6,7 @@ import type { Period, TrendAnalysisResponse } from "@/types/youtube";
 export const runtime = "nodejs";
 
 const MAX_RESULTS_PER_KEYWORD = 15;
-const MAX_KEYWORDS = 8;
+const MAX_KEYWORDS = 12;
 const MAX_VIDEOS_RETURNED = 30;
 const ALLOWED_PERIODS: Period[] = [7, 30];
 

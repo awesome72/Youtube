@@ -1,1 +1,11 @@
-export const DEFAULT_KEYWORDS = ["주식", "투자", "경제", "시장"];
+export const DEFAULT_KEYWORDS = [
+  "반도체",
+  "전력",
+  "금융",
+  "원자력",
+  "로봇",
+  "미국지수",
+  "한국지수",
+  "환율",
+  "유가",
+];
