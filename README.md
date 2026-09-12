@@ -1,28 +1,101 @@
-# YT Trend Lens
+# YouTube Trend Lens
 
-`youtube_주식금융_트렌드분석_프롬프트.md`의 프롬프트 팩을 실제로 쓸 수 있는 정적 웹앱입니다.
-공통 변수(기간, 언어권, 시장, 섹터, 투자자유형, 목적)를 입력하면 7개 분석 프롬프트에
-자동으로 값이 채워지고, 그대로 복사해서 웹 검색 기능이 있는 LLM에 붙여넣을 수 있습니다.
+키워드 기반 YouTube 영상 트렌드 분석 대시보드. YouTube Data API v3로 최근 7일/30일 영상을
+수집해 조회수 증가 가능성이 높은 영상, 검색어별 성과, 제목·설명 기반 자주 등장하는 키워드를
+카드와 차트로 시각화합니다.
 
-디자인은 `DESIGN-apple.md`에 정의된 애플 스타일 디자인 시스템(색상, 타이포그래피,
-컴포넌트 토큰)을 따릅니다.
+## 기능
 
-## 실행 방법
+- 기본 제공 키워드(주식, 투자, 경제, 시장) + 사용자 직접 입력 키워드 지원
+- 최근 7일 / 30일 기간 전환
+- 영상별 조회수, 좋아요수, 참여율, 게시일 수집
+- **Trend Score**: 조회수 / 게시 경과일(조회수 증가 속도)을 로그 스케일로 정규화한 0~100 추정 점수
+  (YouTube API는 과거 조회수 시계열을 제공하지 않으므로, 현재 스냅샷 기반의 근사치입니다)
+- 조회수 증가 가능성이 높은 영상 TOP 10
+- 제목·설명 텍스트 기반 자주 등장하는 키워드 TOP 10 (Recharts 바 차트)
+- 검색어별 성과 비교 차트 (평균 Trend Score, 총 조회수)
+- 모바일/PC 반응형 UI
 
-빌드 도구 없이 순수 HTML/CSS/JS로 작성되었습니다. 아무 정적 서버로 열면 됩니다.
+## 기술 스택
+
+- Next.js 16 (App Router) + React 19 + TypeScript
+- Tailwind CSS v4
+- Recharts
+- YouTube Data API v3 — API 키는 서버의 Next.js API Route(`/api/youtube`)에서만 사용되며
+  클라이언트 번들에는 포함되지 않습니다.
+
+## 시작하기
+
+### 1. YouTube Data API 키 발급
+
+1. [Google Cloud Console](https://console.cloud.google.com/)에서 프로젝트 생성
+2. "API 및 서비스 > 라이브러리"에서 **YouTube Data API v3** 활성화
+3. "사용자 인증 정보"에서 API 키 발급 (필요 시 HTTP 리퍼러 제한 설정)
+
+### 2. 환경 변수 설정
 
 ```bash
-python3 -m http.server 8000
-# http://localhost:8000 접속
+cp .env.example .env.local
 ```
 
-또는 `index.html`을 브라우저로 바로 열어도 됩니다.
+`.env.local`을 열어 발급받은 키를 입력합니다.
 
-## 구성
+```
+YOUTUBE_API_KEY=발급받은_키
+```
 
-- `index.html` — 페이지 구조 (변수 입력, 템플릿 선택, 프롬프트 출력, 키워드/채점표/주의사항)
-- `styles.css` — DESIGN-apple.md 기반 스타일 (Action Blue, SF Pro, pill 버튼, 타일 섹션)
-- `templates.js` — 프롬프트 팩의 7개 템플릿 원문
-- `app.js` — 변수 치환 및 복사 로직
-- `youtube_주식금융_트렌드분석_프롬프트.md` — 원본 프롬프트 팩 스펙
-- `DESIGN-apple.md` — 원본 디자인 시스템 스펙
+`.env.local`은 `.gitignore`에 포함되어 있어 커밋되지 않습니다.
+
+### 3. 의존성 설치 및 개발 서버 실행
+
+```bash
+npm install
+npm run dev
+```
+
+[http://localhost:3000](http://localhost:3000)에서 확인합니다.
+
+### 4. 빌드
+
+```bash
+npm run build
+npm run start
+```
+
+## Vercel 배포
+
+1. 이 저장소를 [Vercel](https://vercel.com/new)에서 Import
+2. Framework Preset은 Next.js가 자동으로 인식됩니다.
+3. **Project Settings > Environment Variables**에 `YOUTUBE_API_KEY`를 추가합니다
+   (Production/Preview/Development 모두 필요 시 추가).
+4. Deploy를 실행하면 자동으로 빌드·배포됩니다.
+
+> API 키는 서버 환경 변수로만 주입되므로 반드시 Vercel 프로젝트의 Environment Variables에
+> 등록해야 하며, 클라이언트 코드에는 절대 하드코딩하지 않습니다.
+
+## 프로젝트 구조
+
+```
+src/
+  app/
+    api/youtube/route.ts   # YouTube Data API 호출 + 트렌드 분석 API Route (서버 전용)
+    page.tsx                # 대시보드 페이지 (클라이언트 컴포넌트)
+    layout.tsx
+  components/               # KeywordPicker, PeriodToggle, StatCard, 차트, 영상 리스트
+  lib/
+    youtube.ts               # YouTube Data API 클라이언트 (search.list, videos.list)
+    analysis.ts               # Trend Score 계산, 키워드 빈도 분석, 요약 생성
+    constants.ts
+    format.ts
+  types/youtube.ts
+```
+
+## 참고: 원본 분석 스펙 문서
+
+- `youtube_주식금융_트렌드분석_프롬프트.md` — YouTube 주식·금융 콘텐츠 분석용 LLM 프롬프트 팩
+- `DESIGN-apple.md` — 참고용 Apple 스타일 디자인 시스템 분석 문서
+
+## 주의사항
+
+Trend Score와 성장 가능성 추정치는 YouTube API의 시점 스냅샷 데이터를 기반으로 한 근사치이며,
+실제 조회수 성장 시계열이 아닙니다. 투자 자문이 아니며 정보 제공 목적입니다.
