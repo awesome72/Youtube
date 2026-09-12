@@ -7,5 +7,5 @@ export const DEFAULT_KEYWORDS = [
   "미국지수",
   "한국지수",
   "환율",
-  "유가",
+  "중동",
 ];
